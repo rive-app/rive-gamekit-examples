@@ -15,7 +15,7 @@ For more docs and guidance on how to use Rive GameKit, see [our docs](https://he
 ## Structure
 
 The strucutre of this repo follows:
-- **examples** - Isolated code snippets, explanations, and resources around specific topics and components mentioned in our Rive GameKit [docs](https://help.rive.app/rive-gamekit/overview)
-- **games** - The full game/example projects that you can run locally
+- `examples/` - Isolated code snippets, explanations, and resources around specific topics and components mentioned in our Rive GameKit [docs](https://help.rive.app/rive-gamekit/overview)
+- `games/` - The full game/example projects that you can run locally
 
 
