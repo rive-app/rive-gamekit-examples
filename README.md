@@ -2,7 +2,7 @@
 
 A collection of games and example apps using the new Rive GameKit.
 
-Learn more at [https://rive.app/](https://rive.app/).
+Learn more at [https://rive.app/use-cases/rive-gamekit-for-flutter](https://rive.app/use-cases/rive-gamekit-for-flutter).
 
 ## Access to Rive GameKit
 
