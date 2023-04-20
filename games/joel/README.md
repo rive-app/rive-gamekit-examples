@@ -21,6 +21,7 @@ Note that you'll need access to Rive GameKit to run this example. Once you do:
 1. Clone the `rive-gamekit-examples` repo down to your machine
 2. `cd games/joel`
 3. Run `flutter create .` to create all the platform-specific folder builds and projects
-3. To run the application as a macOS app, run `flutter run -d macos`
+4. To run the application as a macOS app, run `flutter run -d macos`. 
+- By default, we render a **ton** of zombies on the screen to showcase the Rive Renderer capabilities to draw vector graphics efficiently, but if you want to run a simpler mode to better see the details of zombies individually and hits, run the following command: `flutter run --dart-define=NIGHTMARE=false -d macos`
 
 Note the platform support for Rive GameKit in the [Rive docs](https://help.rive.app/rive-gamekit/overview) before running on other platforms.
