@@ -12,7 +12,7 @@ To play Joel, you can either download the game directly, or run it locally on yo
 
 ### Download the Game
 
-To simply try out Joel on your macOS device, download the zip for the game [here](https://cdn.rive.app/joel/Joel_1_0_0.zip).
+To simply try out Joel on your macOS device, download the zip for the game [here](https://cdn.rive.app/joel/Joel_1_0_1.zip).
 
 ### Locally
 
