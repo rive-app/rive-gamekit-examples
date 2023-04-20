@@ -452,7 +452,7 @@ class Hero extends DynamicSceneObject {
           var translation = offset + muzzle.translation;
 
           if (_weapon == HeroWeapon.machineGun) {
-            for (int r = 0; r < 2; r++) {
+            for (int r = 0; r < (scene.isNightmareMode ? 2 : 1); r++) {
               var pew = scene.characterFile.artboard('Pew')!;
               pew.setText(
                   'Pew',
@@ -474,7 +474,7 @@ class Hero extends DynamicSceneObject {
               _projectiles
                   .add(MachineGunProjectile(translation, muzzle.xDirection));
             }
-            _fireTime += 0.028;
+            _fireTime += scene.isNightmareMode ? 0.028 : 0.040;
           } else {
             var pew = scene.characterFile.artboard('Pew')!;
 
@@ -499,7 +499,7 @@ class Hero extends DynamicSceneObject {
             _projectiles.add(RailGunProjectile(
                 scene.size.height * 0.9, translation, muzzle.xDirection));
 
-            _fireTime += 0.44;
+            _fireTime += scene.isNightmareMode ? 0.44 : 0.64;
           }
         }
         break;

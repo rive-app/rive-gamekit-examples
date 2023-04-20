@@ -101,6 +101,7 @@ class Scene {
   final rive.BooleanInput? joystickArrow;
   final rive.Component? joystickCursor;
   final rive.StateMachine? bushStateMachine;
+  final bool isNightmareMode;
   Beggining? _beggining;
   Ending? _ending;
   Scene._(
@@ -129,7 +130,8 @@ class Scene {
   })  : joystickActive = joystickStateMachine.boolean('joystickActive'),
         joystickShooting = joystickStateMachine.boolean('shootingOn'),
         joystickArrow = joystickStateMachine.boolean('arrowOn'),
-        joystickCursor = joystick.component('cursor') {
+        joystickCursor = joystick.component('cursor'),
+        isNightmareMode = const String.fromEnvironment('NIGHTMARE') != 'false' {
     _character = Hero(
       scene: this,
       artboard: character,
@@ -263,7 +265,7 @@ class Scene {
           );
           add(bullet);
         }
-        var count = 200; //Platform.isMacOS ? 150 : 60;
+        var count = isNightmareMode ? 200 : 70;
         for (int j = 0; j < count; j++) {
           var zombieSceneObject = ZombieSceneObject.make(
             file: zombie,
@@ -512,6 +514,7 @@ class Scene {
 
     rive.File? zombie;
     {
+      // var data = await rootBundle.load('assets/zombie_v7.riv');
       var data = await rootBundle.load('assets/zombies_separate.riv');
       var bytes = data.buffer.asUint8List();
       var file = rive.File.decode(bytes);
