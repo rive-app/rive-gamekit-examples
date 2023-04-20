@@ -12,8 +12,10 @@ Rive GameKit is currently in a technical preview as a private Flutter package. Y
 
 For more docs and guidance on how to use Rive GameKit, see [our docs](https://help.rive.app/rive-gamekit/overview) in the help center for step-by-step guidance on integrating the package into a Flutter application, and various other fundamentals, concepts, and techniques to be familiar with during development.
 
-## Examples
+## Structure
 
-Check out the various folders at the root-level of this repository to dig deeper into each individual example. Some examples will be games of small scale to show the basics of how to render Rives onto a texture with basic transformations to control certain Rive elements inside an animation/render loop, while other examples may be larger in scale and show different ways of organizing game code and logic.
+The strucutre of this repo follows:
+- **examples** - Isolated code snippets, explanations, and resources around specific topics and components mentioned in our Rive GameKit [docs](https://help.rive.app/rive-gamekit/overview)
+- **games** - The full game/example projects that you can run locally
 
 
