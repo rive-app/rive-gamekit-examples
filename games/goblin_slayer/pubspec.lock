@@ -204,10 +204,10 @@ packages:
     dependency: "direct main"
     description:
       name: rive_gamekit
-      sha256: daadb435aa5f07cc71056b78deb877a4ef78ce8d347621930e48be99bfb6eeeb
+      sha256: "1a46259c37e3daa6c94180fd22f22d2f7d3ca99488ab43eee0047d61513c711f"
       url: "https://onepub.dev/api/xuppsdavuh/"
     source: hosted
-    version: "0.0.8"
+    version: "0.0.9"
   sky_engine:
     dependency: transitive
     description: flutter
