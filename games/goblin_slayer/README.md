@@ -1,5 +1,7 @@
 # Goblin Slayer
 
+https://user-images.githubusercontent.com/13705472/234059978-4037a30f-885f-4488-833c-527d89261610.mp4
+
 See the [rive-gamekit-examples](../../README.md) main README for how to get access to the Rive GameKit.
 
 ## About
@@ -20,3 +22,10 @@ Note that you'll need access to Rive GameKit to run this example. Once you do:
 4. To run the application as a macOS app, run `flutter run -d macos`
 
 Note the platform support for Rive GameKit in the [Rive docs](https://help.rive.app/rive-gamekit/overview) before running on other platforms.
+
+
+## Controls
+
+WASD - for movement
+SPACE - normal attack
+E - special attack
