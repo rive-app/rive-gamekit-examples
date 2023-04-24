@@ -1,0 +1,2 @@
+const int SHIP_HITBOX_WIDTH = 425;
+const int SHIP_HITBOX_HEIGHT = 487;
