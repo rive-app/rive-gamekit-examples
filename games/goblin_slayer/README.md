@@ -26,6 +26,6 @@ Note the platform support for Rive GameKit in the [Rive docs](https://help.rive.
 
 ## Controls
 
-WASD - for movement
-SPACE - normal attack
-E - special attack
+- **WASD** - for movement
+- **SPACE** - normal attack
+- **E** - special attack
