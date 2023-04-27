@@ -15,4 +15,6 @@ Note that you'll need access to Rive GameKit to run this example. Once you do:
 3. Run `flutter create .` to create all the platform-specific folder builds and projects
 3. To run the application as a macOS app, run `flutter run -d macos`
 
-Note the platform support for Rive GameKit in the [Rive docs](https://help.rive.app/rive-gamekit/overview) before running on other platforms.
+
+### Platform Considerations
+Before running locally, please take note of the [supported platforms and versions](https://help.rive.app/rive-gamekit/overview#supported-platforms-rive-gamekit) section in the Rive GameKit docs.
