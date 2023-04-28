@@ -15,7 +15,7 @@ class Grid {
   final tree = AABBTree<Tile>();
   List<Tile> tiles = [];
 
-  final offsetFactor = 1.27;
+  final offsetFactor = 1.28;
 
   Grid(
     this.startingTile, {
