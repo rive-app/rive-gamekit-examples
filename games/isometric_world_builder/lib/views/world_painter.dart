@@ -172,12 +172,16 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
 
     rive.Mat2D.invert(
         _inverseSkewTransform, _viewTransform.mul(grid.skewTransform));
-
+    // slightly expand the camera AABB to account for tiles that draw outside
+    // of their bounds - for example the tall trees. This ensures that they
+    // are still drawn when they are partially off screen.
+    final popinPadding = 750 * _zoom;
     final cameraAABB = rive.AABB.fromPoints([
       rive.Vec2D.fromValues(0, 0),
       rive.Vec2D.fromValues(size.width, 0),
-      rive.Vec2D.fromValues(size.width, size.height),
-      rive.Vec2D.fromValues(0, size.height),
+      rive.Vec2D.fromValues(
+          size.width + popinPadding, size.height + popinPadding),
+      rive.Vec2D.fromValues(-popinPadding, size.height + popinPadding),
     ], transform: _inverseSkewTransform);
 
     final List<Tile> tilesToRender = [];
