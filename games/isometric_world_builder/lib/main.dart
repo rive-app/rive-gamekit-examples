@@ -65,8 +65,9 @@ class _IsometricWorldBuilderState extends State<IsometricWorldBuilder> {
     return MaterialApp(
       showPerformanceOverlay: false,
       home: Scaffold(
+        backgroundColor: WorldPainter.backgroundColor,
         body: _isLoading
-            ? const SizedBox()
+            ? const SizedBox.shrink()
             : Stack(
                 children: [
                   _gestureHandler(

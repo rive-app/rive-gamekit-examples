@@ -199,7 +199,8 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
   }
 
   @override
-  Color get background => const Color(0xFF8A787A);
+  Color get background => backgroundColor;
+  static Color backgroundColor = const Color(0xFF8A787A);
 
   @override
   void dispose() {
