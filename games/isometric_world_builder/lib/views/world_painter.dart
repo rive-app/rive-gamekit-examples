@@ -53,7 +53,7 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
 
     if (_hoveredTile == null || _lastButtonEvent != kPrimaryButton) return;
     if (selectedTile.value == null) {
-      _hoveredTile!.onClick();
+      _hoveredTile!.triggeTileCycle();
     } else {
       _hoveredTile!.updateTile(selectedTile.value!);
     }
@@ -71,6 +71,13 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
 
   @override
   void onPointerMove(PointerMoveEvent event) {
+    if (_hoveredTile?.tileData != null && selectedTile.value != null) {
+      _hoveredTile!.paint(selectedTile.value!);
+    }
+
+    _localCursor =
+        rive.Vec2D.fromOffset(event.localPosition * window.devicePixelRatio);
+
     if (event.buttons == kSecondaryMouseButton) {
       _cameraPosition.x += event.delta.dx;
       _cameraPosition.y += event.delta.dy;

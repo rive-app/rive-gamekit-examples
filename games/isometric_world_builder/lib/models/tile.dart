@@ -64,6 +64,11 @@ class Tile {
   // static const _boundsOffset = 250;
   static const _boundsOffset = 0;
 
+  /// Indicates if this tile has not been "painted" on. A base meaning nothing
+  /// has been placed on it. TODO: this can be improved by creating a
+  /// blank artboard as the base instead of using the "ground" artboard.
+  bool _isBase = true;
+
   Tile(
     this.tileData,
     this.coordinates,
@@ -102,7 +107,12 @@ class Tile {
     artboard.renderTransform = view;
   }
 
-  void onClick() {
+  /// This calls the swap trigger to show a different style of artboard.
+  ///
+  /// For example, cycling through the different colored trees.
+  void triggeTileCycle() {
+    _isBase = false;
+
     swapTrigger.fire();
   }
 
@@ -112,17 +122,26 @@ class Tile {
     }
   }
 
-  bool _isSwapping = false;
+  /// Paint the provided tile data. A paint can only happen if the artboards
+  /// are different.
+  void paint(TileData tileDataToPaint) {
+    if (_isBase || tileData.artboardName != tileDataToPaint.artboardName) {
+      updateTile(tileDataToPaint);
+    }
+  }
+
+  bool _isBusySwapping = false;
 
   Future<void> updateTile(TileData tileData) async {
-    if (this.tileData == tileData && !_isSwapping) {
-      swapTrigger.fire();
-    } else if (!_isSwapping) {
-      _isSwapping = true;
+    if (this.tileData == tileData && !_isBusySwapping) {
+      _isBusySwapping = true;
+      triggeTileCycle();
+      await Future.delayed(const Duration(milliseconds: 500))
+          .then((value) => _isBusySwapping = false);
+    } else if (!_isBusySwapping) {
+      _isBusySwapping = true;
       final cachedSm = sm;
       final cachedArtboard = artboard;
-      // removeTrigger.fire();
-      // await Future.delayed(const Duration(milliseconds: 1000));
 
       this.tileData = tileData;
       _initRive();
@@ -131,9 +150,9 @@ class Tile {
       cachedSm.dispose();
       cachedArtboard.dispose();
       await Future.delayed(const Duration(milliseconds: 10));
+      triggeTileCycle();
 
-      swapTrigger.fire();
-      _isSwapping = false;
+      _isBusySwapping = false;
     }
   }
 
