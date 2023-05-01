@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:isometric_world_builder/data.dart';
 import 'package:isometric_world_builder/models/tile.dart';
@@ -44,7 +45,7 @@ class _SelectionPanelState extends State<SelectionPanel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: clampDouble(MediaQuery.of(context).size.height * 0.2, 100, 200),
       child: RiveAnimation.asset(
         'assets/world_creator.riv',
         artboard: 'Ui',
