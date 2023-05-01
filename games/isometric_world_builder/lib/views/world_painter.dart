@@ -82,7 +82,7 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
     /// Handles zoom with a mouse.
     final before = _worldCursor;
     final zoomAmount = event.scrollDelta.dy / 1000;
-    _zoom = clampDouble(_zoom - zoomAmount, 0.2, 4);
+    _zoom = clampDouble(_zoom - zoomAmount, 0.1, 6);
     final after = _worldCursor;
 
     final offset = grid.skewTransform * (after - before);
@@ -96,7 +96,7 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
     /// Handles zoom with a trackpad.
     final before = _worldCursor;
     final zoomAmount = clampDouble((event.scale - 1) / 10, -0.025, 0.025);
-    _zoom = clampDouble(_zoom + zoomAmount, 0.2, 4);
+    _zoom = clampDouble(_zoom + zoomAmount, 0.1, 6);
     final after = _worldCursor;
 
     final offset = grid.skewTransform * (after - before);
@@ -203,8 +203,9 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
   }
 
   @override
-  Color get background => backgroundColor;
-  static Color backgroundColor = const Color(0xFF8A787A);
+  Color get background => Colors.transparent;
+  static Color backgroundColorLight = const Color(0xFFFEE6D7);
+  static Color backgroundColorDark = const Color(0xFF64535B);
 
   @override
   void dispose() {

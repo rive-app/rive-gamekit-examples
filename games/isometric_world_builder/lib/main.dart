@@ -1,13 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:isometric_world_builder/data.dart';
+import 'package:isometric_world_builder/utils/bootstrap.dart';
 import 'package:isometric_world_builder/utils/helpers.dart';
 import 'package:isometric_world_builder/models/models.dart';
+import 'package:isometric_world_builder/views/menu.dart';
 import 'package:isometric_world_builder/views/selection_panel.dart';
 import 'package:isometric_world_builder/views/world_painter.dart';
 import 'package:rive_gamekit/rive_gamekit.dart' as rive;
 
-void main() => runApp(const IsometricWorldBuilder());
+void main() {
+  bootstrap(() => const IsometricWorldBuilder());
+}
 
 class IsometricWorldBuilder extends StatefulWidget {
   const IsometricWorldBuilder({super.key});
@@ -20,11 +24,13 @@ class _IsometricWorldBuilderState extends State<IsometricWorldBuilder> {
   final rive.RenderTexture _renderTexture =
       rive.GameKit.instance.makeRenderTexture();
 
-  late final WorldPainter _worldPainter;
-  late final Grid grid;
+  late WorldPainter _worldPainter;
+  late Grid grid;
   late final rive.File _riveFile;
 
   final ValueNotifier<TileData?> _selectedTile = ValueNotifier(null);
+
+  final ValueNotifier<bool> _showPerformanceOverlay = ValueNotifier(false);
 
   @override
   void initState() {
@@ -62,26 +68,56 @@ class _IsometricWorldBuilderState extends State<IsometricWorldBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      showPerformanceOverlay: false,
-      home: Scaffold(
-        backgroundColor: WorldPainter.backgroundColor,
-        body: _isLoading
-            ? const SizedBox.shrink()
-            : Stack(
-                children: [
-                  _gestureHandler(
-                    _renderTexture.widget(_worldPainter),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SelectionPanel(
-                      // tileData: _tileData,
-                      onTileSelected: (value) => _selectedTile.value = value,
+    return ValueListenableBuilder(
+      valueListenable: _showPerformanceOverlay,
+      builder: (context, value, child) {
+        return MaterialApp(
+          showPerformanceOverlay: value,
+          theme: ThemeData(
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: const Color(0xFF5A2752))),
+          home: child,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [
+                WorldPainter.backgroundColorDark,
+                WorldPainter.backgroundColorLight
+              ],
+              begin: const FractionalOffset(0.0, 1),
+              end: const FractionalOffset(0.0, 0.0),
+              stops: const [0.0, 1.0],
+              tileMode: TileMode.clamp),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: _isLoading
+              ? const SizedBox.shrink()
+              : Stack(
+                  children: [
+                    _gestureHandler(
+                      _renderTexture.widget(_worldPainter),
                     ),
-                  ),
-                ],
-              ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Menu(
+                        showPerformanceOverlay: _showPerformanceOverlay,
+                        updateSize: (rows, columns) {
+                          grid.updateGrid(rows, columns);
+                        },
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SelectionPanel(
+                        onTileSelected: (value) => _selectedTile.value = value,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }
