@@ -61,7 +61,8 @@ class _IsometricWorldBuilderState extends State<IsometricWorldBuilder> {
       gridSizeY: 5,
     );
 
-    _worldPainter = WorldPainter(grid, _selectedTile);
+    _worldPainter =
+        WorldPainter(grid, _selectedTile, _riveFile.artboard('Selection')!);
 
     setState(() {
       _isLoading = false;

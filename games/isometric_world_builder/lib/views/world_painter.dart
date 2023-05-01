@@ -10,10 +10,13 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
   WorldPainter(
     this.grid,
     this.selectedTile,
-  );
+    this.selectionArtboard,
+  ) : selectionStateMachine = selectionArtboard.defaultStateMachine()!;
 
   final Grid grid;
   final ValueNotifier<TileData?> selectedTile;
+  final rive.Artboard selectionArtboard;
+  final rive.StateMachine selectionStateMachine;
 
   final rive.Mat2D _viewTransform = rive.Mat2D();
   final rive.Mat2D _inverseViewTransform = rive.Mat2D();
@@ -221,6 +224,17 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
     rive.Rive.batchAdvanceAndRender(
         tilesToRender.map((e) => e.sm), elapsedSeconds, renderer);
 
+    // Paint selection/hover tile
+    {
+      if (_hoveredTile != null) {
+        renderer.save();
+        final transform = _hoveredTile!.artboard.renderTransform;
+        renderer.translate(transform[4], transform[5]);
+        selectionArtboard.draw(renderer);
+        renderer.restore();
+      }
+    }
+
     // Restore the renderer state.
     renderer.restore();
 
@@ -234,6 +248,8 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
 
   @override
   void dispose() {
+    selectionStateMachine.dispose();
+    selectionArtboard.dispose();
     grid.dispose();
     super.dispose();
   }
