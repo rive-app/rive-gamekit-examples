@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:isometric_world_builder/data.dart';
@@ -122,20 +124,30 @@ class _IsometricWorldBuilderState extends State<IsometricWorldBuilder> {
     );
   }
 
-  Listener _gestureHandler(Widget child) {
-    return Listener(
-      onPointerUp: (event) => _worldPainter.onPointerUp(event),
-      onPointerDown: (event) => _worldPainter.onPointerDown(event),
-      onPointerMove: (event) => _worldPainter.onPointerMove(event),
-      onPointerPanZoomUpdate: _worldPainter.onPointerPanZoomUpdate,
-      onPointerHover: (event) => _worldPainter.onHover(event),
-      onPointerSignal: (event) {
-        if (event is PointerScrollEvent) {
-          _worldPainter.onPointerScrollEvent(event);
-        }
+  Widget _gestureHandler(Widget child) {
+    return GestureDetector(
+      onScaleStart: (details) {
+        _worldPainter.onScaleStart(details);
       },
-      child: MouseRegion(
-        child: child,
+      onScaleUpdate: (details) {
+        _worldPainter.onScaleUpdate(details);
+      },
+      onScaleEnd: (details) {
+        _worldPainter.onScaleEnd(details);
+      },
+      child: Listener(
+        onPointerUp: (event) => _worldPainter.onPointerUp(event),
+        onPointerDown: (event) => _worldPainter.onPointerDown(event),
+        onPointerMove: (event) => _worldPainter.onPointerMove(event),
+        onPointerHover: (event) => _worldPainter.onHover(event),
+        onPointerSignal: (event) {
+          if (event is PointerScrollEvent) {
+            _worldPainter.onPointerScrollEvent(event);
+          }
+        },
+        child: MouseRegion(
+          child: child,
+        ),
       ),
     );
   }

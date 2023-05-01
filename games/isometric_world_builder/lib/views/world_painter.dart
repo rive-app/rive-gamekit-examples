@@ -23,7 +23,9 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
 
   final rive.Vec2D _cameraPosition = rive.Vec2D.fromValues(0, 0);
 
-  double _zoom = 1.0;
+  final startingZoom = 0.3 * window.devicePixelRatio;
+  late double _zoom = startingZoom;
+  late double _zoomStart = startingZoom;
 
   Tile? _hoveredTile;
 
@@ -31,9 +33,15 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
       _inverseViewTransform * _localCursor * (1 / _zoom);
 
   void _positionCameraOnStart(Size size) {
-    _cameraPosition.x += size.width / 2 - Grid.tileWidth / 2;
-    _cameraPosition.y +=
-        size.height / 2 - grid.gridWidth / 2 - Grid.tileHeight / 2;
+    final pos = rive.Vec2D.fromValues(0, 0);
+    final before = _inverseViewTransform * pos;
+    final after = _inverseViewTransform * pos * (1 / startingZoom);
+    final offset = grid.skewTransform * (after - before);
+
+    _cameraPosition.x += offset.x * _zoom +
+        (size.width / 2) -
+        ((Grid.tileWidth / 2) * startingZoom);
+    _cameraPosition.y += offset.y * _zoom;
   }
 
   @override
@@ -71,7 +79,9 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
 
   @override
   void onPointerMove(PointerMoveEvent event) {
-    if (_hoveredTile?.tileData != null && selectedTile.value != null) {
+    if (_hoveredTile?.tileData != null &&
+        selectedTile.value != null &&
+        _lastButtonEvent != kSecondaryMouseButton) {
       _hoveredTile!.paint(selectedTile.value!);
     }
 
@@ -79,8 +89,8 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
         rive.Vec2D.fromOffset(event.localPosition * window.devicePixelRatio);
 
     if (event.buttons == kSecondaryMouseButton) {
-      _cameraPosition.x += event.delta.dx;
-      _cameraPosition.y += event.delta.dy;
+      _cameraPosition.x += event.delta.dx * window.devicePixelRatio;
+      _cameraPosition.y += event.delta.dy * window.devicePixelRatio;
     }
   }
 
@@ -99,18 +109,26 @@ class WorldPainter extends rive.RenderTexturePainter with PointerInput {
   }
 
   @override
-  void onPointerPanZoomUpdate(PointerPanZoomUpdateEvent event) {
-    /// Handles zoom with a trackpad.
+  void onScaleStart(ScaleStartDetails event) {
+    _zoomStart = _zoom;
+  }
+
+  @override
+  void onScaleUpdate(ScaleUpdateDetails event) {
     final before = _worldCursor;
-    final zoomAmount = clampDouble((event.scale - 1) / 10, -0.025, 0.025);
-    _zoom = clampDouble(_zoom + zoomAmount, 0.1, 6);
+
+    final double desiredScale = _zoomStart * event.scale;
+    final double scaleChange = desiredScale / _zoom;
+
+    _zoom = clampDouble(_zoom * scaleChange, 0.1, 6.0);
     final after = _worldCursor;
-
     final offset = grid.skewTransform * (after - before);
-
     _cameraPosition.x += offset.x * _zoom;
     _cameraPosition.y += offset.y * _zoom;
   }
+
+  @override
+  void onScaleEnd(ScaleEndDetails event) {}
 
   bool firstLoad = true;
 
@@ -227,5 +245,7 @@ mixin PointerInput {
   void onPointerDown(PointerDownEvent event);
   void onPointerMove(PointerMoveEvent event);
   void onPointerScrollEvent(PointerScrollEvent event);
-  void onPointerPanZoomUpdate(PointerPanZoomUpdateEvent event);
+  void onScaleStart(ScaleStartDetails event);
+  void onScaleUpdate(ScaleUpdateDetails event);
+  void onScaleEnd(ScaleEndDetails event);
 }
