@@ -149,10 +149,10 @@ class Tile {
 
       cachedSm.dispose();
       cachedArtboard.dispose();
-      await Future.delayed(const Duration(milliseconds: 10));
+      await Future.delayed(const Duration(milliseconds: 100));
       triggeTileCycle();
-
-      _isBusySwapping = false;
+      await Future.delayed(const Duration(milliseconds: 500))
+          .then((value) => _isBusySwapping = false);
     }
   }
 
