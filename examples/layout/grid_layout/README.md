@@ -1,16 +1,5 @@
-# grid_layout
+# Grid Layout Example
 
-A new Flutter project.
+A sample demoing how to layout multiple artboards in a grid.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![CleanShot 2023-07-03 at 15 21 32](https://github.com/rive-app/rive-gamekit-examples/assets/13705472/8b3c11d3-a1b4-4bc6-b630-2d29c85a6fc8)
